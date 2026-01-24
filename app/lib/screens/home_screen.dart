@@ -1,34 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:app/widgets/custom_button.dart';
+import 'package:app/widgets/diagona_clipper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:app/services/camera_service.dart';
+import 'package:app/services/file_picker_service.dart';
 
-class HomeScreen extends StatelessWidget{
-  const HomeScreen ({super.key});
+class HomeScreen extends StatelessWidget {
+   HomeScreen({super.key});
+
+  final CameraService _cameraService = CameraService();
+  final FilePickerService _filePickerService = FilePickerService();
+
+  Future<void> scanWithCamera(BuildContext context) async {
+    final image = await _cameraService.pickFromCamera();
+    if (image != null) {
+      Navigator.pushNamed(context, '/preview', arguments: image.path);
+    }
+  }
+
+  Future<void> uploadDocument(BuildContext context) async {
+    final image = await _filePickerService.pickFromGallery();
+    if (image != null) {
+      Navigator.pushNamed(context, '/preview', arguments: image.path);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Medical Scanner App"),
-      ),
-      body: Padding(
-          padding:const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:[
-            CustomButton(text: "Scan Report", onPressed: (){
-              //navigation later
-            },
-            ),
-            const SizedBox(height: 12),
-            CustomButton(text: "Upload Document", onPressed: (){
-              //later
-            },
-            ),
+      extendBodyBehindAppBar: true,
+      drawer: Drawer(),
+      appBar: AppBar(backgroundColor: Colors.transparent),
 
-          ]
-        ),
+      body: Stack(
+        children: [
+          Container(color: Colors.white70),
+          ClipPath(
+            clipper: DiagonalClipper(),
+            child: Container(height: 380, color: Color(0xFFC9A1A1)),
+          ),
+          Positioned(
+            top: 80,
+            left: 24,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Report Scanner",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                Text(
+                  "Scan reports and convert it to editable files",
+                  style: TextStyle(color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: height * 0.60,
+            left: 24,
+            right: 24,
+            child: CustomButton(
+              text: "Scan Report",
+              onPressed: () => scanWithCamera(context),
+            ),
+          ),
 
+          Positioned(
+            top: height * 0.70,
+            left: 24,
+            right: 24,
+            child: CustomButton(
+              text: "Upload Document",
+              onPressed: () =>uploadDocument(context),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -14,7 +14,7 @@ class ScannerApp extends StatelessWidget {
     return  MaterialApp(
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }
