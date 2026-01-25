@@ -7,9 +7,8 @@ plugins {
 
 android {
     namespace = "com.example.app"
-    compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
-
+    compileSdk=36
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -37,6 +36,9 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+}
+dependencies {
+    implementation("androidx.appcompat:appcompat:1.6.1")
 }
 
 flutter {

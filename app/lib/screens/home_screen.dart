@@ -1,9 +1,11 @@
+import 'package:app/screens/preview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/custom_button.dart';
 import 'package:app/widgets/diagona_clipper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:app/services/camera_service.dart';
 import 'package:app/services/file_picker_service.dart';
+import 'package:app/utils/constants.dart';
 
 class HomeScreen extends StatelessWidget {
    HomeScreen({super.key});
@@ -14,14 +16,31 @@ class HomeScreen extends StatelessWidget {
   Future<void> scanWithCamera(BuildContext context) async {
     final image = await _cameraService.pickFromCamera();
     if (image != null) {
-      Navigator.pushNamed(context, '/preview', arguments: image.path);
+      Navigator.push(context,
+          MaterialPageRoute(
+              builder:(_)=>
+                  PreviewScreen(
+                    imagePath: image.path,
+                    sourceType:ImageSourceType.camera,
+                  ),
+
+          ),
+      );
     }
   }
 
   Future<void> uploadDocument(BuildContext context) async {
     final image = await _filePickerService.pickFromGallery();
     if (image != null) {
-      Navigator.pushNamed(context, '/preview', arguments: image.path);
+      Navigator.push(context,
+        MaterialPageRoute(
+          builder:(_)=>
+              PreviewScreen(
+                  imagePath: image.path,
+                  sourceType: ImageSourceType.gallery,
+              ),
+        ),
+      );
     }
   }
 
