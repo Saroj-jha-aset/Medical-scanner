@@ -1,4 +1,5 @@
 import 'package:app/screens/preview_screen.dart';
+import 'package:app/widgets/home_Drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/custom_button.dart';
 import 'package:app/widgets/diagona_clipper.dart';
@@ -50,7 +51,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      drawer: Drawer(),
+      drawer: NavBar(),
       appBar: AppBar(backgroundColor: Colors.transparent),
 
       body: Stack(
