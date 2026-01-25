@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 
-class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+class NavBar extends StatelessWidget {
+  final ThemeMode themeMode;
+  final void Function(bool) onThemeChanged;
 
-  @override
-  State<NavBar> createState() => _NavBarState();
-}
+  const NavBar({
+    super.key,
+    required this.onThemeChanged,
+    required this.themeMode,
+  });
 
-class _NavBarState extends State<NavBar> {
-  bool isDarkMode=false;
+
   @override
   Widget build(BuildContext context) {
+    // 🔥 derive toggle value from REAL theme
+    final bool isDark =
+        themeMode == ThemeMode.dark ||
+            (themeMode == ThemeMode.system &&
+                MediaQuery
+                    .of(context)
+                    .platformBrightness == Brightness.dark);
     return Drawer(
       child: Column(
         children: [
@@ -35,14 +44,10 @@ class _NavBarState extends State<NavBar> {
                 SwitchListTile(
                   secondary: const Icon(Icons.dark_mode_outlined),
                   title: const Text("Dark Mode"),
-                  value: isDarkMode,
+                  value: isDark,
                   onChanged: (value) {
-                    setState(() {
-                      isDarkMode = value;
-                    });
-
-                    // For now (later we connect real theme logic)
-                    debugPrint("Dark mode: $isDarkMode");
+                    // 🔥 request theme change
+                    onThemeChanged(value);
                   },
                 ),
 

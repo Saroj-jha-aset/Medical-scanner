@@ -8,8 +8,16 @@ import 'package:app/services/camera_service.dart';
 import 'package:app/services/file_picker_service.dart';
 import 'package:app/utils/constants.dart';
 
+
 class HomeScreen extends StatelessWidget {
-   HomeScreen({super.key});
+  HomeScreen({
+    super.key,
+    required this.themeMode,
+    required this.onThemeChanged});
+
+  // ✅ REQUIRED FIELD (this was missing earlier)
+  final ThemeMode themeMode;
+  final void Function(bool) onThemeChanged;
 
   final CameraService _cameraService = CameraService();
   final FilePickerService _filePickerService = FilePickerService();
@@ -17,15 +25,14 @@ class HomeScreen extends StatelessWidget {
   Future<void> scanWithCamera(BuildContext context) async {
     final image = await _cameraService.pickFromCamera();
     if (image != null) {
-      Navigator.push(context,
-          MaterialPageRoute(
-              builder:(_)=>
-                  PreviewScreen(
-                    imagePath: image.path,
-                    sourceType:ImageSourceType.camera,
-                  ),
-
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PreviewScreen(
+            imagePath: image.path,
+            sourceType: ImageSourceType.camera,
           ),
+        ),
       );
     }
   }
@@ -33,13 +40,13 @@ class HomeScreen extends StatelessWidget {
   Future<void> uploadDocument(BuildContext context) async {
     final image = await _filePickerService.pickFromGallery();
     if (image != null) {
-      Navigator.push(context,
+      Navigator.push(
+        context,
         MaterialPageRoute(
-          builder:(_)=>
-              PreviewScreen(
-                  imagePath: image.path,
-                  sourceType: ImageSourceType.gallery,
-              ),
+          builder: (_) => PreviewScreen(
+            imagePath: image.path,
+            sourceType: ImageSourceType.gallery,
+          ),
         ),
       );
     }
@@ -51,22 +58,32 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      drawer: NavBar(),
+
+      // ✅ Pass callback safely to Drawer
+      drawer: NavBar(
+          themeMode: themeMode,
+          onThemeChanged: onThemeChanged),
+
       appBar: AppBar(backgroundColor: Colors.transparent),
 
       body: Stack(
         children: [
           Container(color: Colors.white70),
+
           ClipPath(
             clipper: DiagonalClipper(),
-            child: Container(height: 380, color: Color(0xFFC9A1A1)),
+            child: Container(
+              height: 380,
+              color: const Color(0xFFC9A1A1),
+            ),
           ),
+
           Positioned(
             top: 80,
             left: 24,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   "Report Scanner",
                   style: TextStyle(
@@ -82,6 +99,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
+
           Positioned(
             top: height * 0.60,
             left: 24,
@@ -98,7 +116,7 @@ class HomeScreen extends StatelessWidget {
             right: 24,
             child: CustomButton(
               text: "Upload Document",
-              onPressed: () =>uploadDocument(context),
+              onPressed: () => uploadDocument(context),
             ),
           ),
         ],

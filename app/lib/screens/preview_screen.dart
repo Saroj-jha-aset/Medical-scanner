@@ -6,6 +6,7 @@ import 'package:app/utils/constants.dart';
 import 'dart:io';
 import 'package:image_cropper/image_cropper.dart';
 
+
 class PreviewScreen extends StatefulWidget {
   final String imagePath;
   final ImageSourceType sourceType;
@@ -75,10 +76,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
             onPressed: (){
-          Navigator.pushAndRemoveUntil(
-              context, MaterialPageRoute(builder:(_)=> HomeScreen()),
-              (route)=>false);
-        },
+              Navigator.popUntil(context, (route) => route.isFirst);
+
+            },
         ),
         title: const Text("Preview",
         style: TextStyle(
