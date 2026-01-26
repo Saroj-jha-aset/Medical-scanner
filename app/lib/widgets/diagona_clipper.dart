@@ -22,7 +22,6 @@ class DiagonalClipper extends CustomClipper<Path> {
 
     // Back to start
     path.close();
-
     return path;
   }
 

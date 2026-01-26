@@ -68,13 +68,13 @@ class HomeScreen extends StatelessWidget {
 
       body: Stack(
         children: [
-          Container(color: Colors.white70),
+          Container(color: Theme.of(context).colorScheme.background,),
 
           ClipPath(
             clipper: DiagonalClipper(),
             child: Container(
               height: 380,
-              color: const Color(0xFFC9A1A1),
+              color: Theme.of(context).colorScheme.primaryContainer,
             ),
           ),
 
@@ -83,18 +83,14 @@ class HomeScreen extends StatelessWidget {
             left: 24,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   "Report Scanner",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 Text(
                   "Scan reports and convert it to editable files",
-                  style: TextStyle(color: Colors.black54),
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],
             ),

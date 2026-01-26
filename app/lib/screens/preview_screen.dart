@@ -72,7 +72,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
             onPressed: (){
@@ -93,7 +93,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
           children: [
             Expanded(
                 child: Container(
-                  color: Color(0xFFC9A1A1),
+                  color: Theme.of(context).colorScheme.primaryContainer,
                   child: Image.file(
                     imageFile,
                     fit: BoxFit.contain,
@@ -102,6 +102,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
             ),
             Container(
               padding: const EdgeInsets.all(13),
+              color: Theme.of(context).colorScheme.primaryContainer,
               child: Row(
                 children: [
                   if(widget.sourceType == ImageSourceType.camera)
