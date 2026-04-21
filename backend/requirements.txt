@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+easyocr
+python-multipart
+pandas
+openpyxl
+opencv-python-headless
+
+torch==2.11.0
+torchvision==0.26.0
+
+python-bidi==0.6.3
